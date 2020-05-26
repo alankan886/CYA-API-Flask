@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource
+
+from auth import authenticate, identity
 from resources.card import Card
 from resources.board import Board
 from resources.user import UserRegister
@@ -10,6 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 
+jwt = JWT(app, authenticate, identity)
 
 api.add_resource(Card, '/card/<string:name>')
 api.add_resource(Board, '/board')
