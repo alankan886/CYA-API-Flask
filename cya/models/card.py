@@ -1,6 +1,6 @@
 from db import db
 
-class CardModel():
+class CardModel(db.Model):
     __tablename__ = 'cards'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -9,20 +9,27 @@ class CardModel():
     last_checked = db.Column(db.Date)
     next_checked = db.Column(db.Date)
 
-    def __init__(self):
-        pass
+    board_id = db.Column(db.Integer, db.ForeignKey('boards.id'))
+    board = db.relationship('BoardModel')
+
+    def __init__(self, name, tag, last_checked, next_checked):
+        self.name = name
+        self.tag = tag
+        self.last_checked = last_checked
+        self.next_checked = next_checked
 
     def json(self):
-        pass
+        return {'name' : self.name, 'tag' : self.tag, 'last checked' : self.last_checked, 'next checked' : self.next_checked}
     
     @classmethod
     def find_by_name(cls, name):
-        pass
+        return cls.query.filter_by(name=name).first()
 
     def save_to_db(self):
-        pass
+        db.session.add(self)
+        db.session.commit()
 
     def delete_from_db(self):
-        pass
+        db.session.delete(self)
+        db.session.commit()
 
-    
