@@ -1,23 +1,18 @@
 from db import db
-from datetime import datetime
 
 class BoardModel(db.Model):
     __tablename__ = 'boards'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    created_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    last_modified = db.Column(db.DateTime)
 
     cards = db.relationship('CardModel')
 
-    def __init__(self, name, created_date, last_modified):
+    def __init__(self, name):
         self.name = name
-        self.created_date = created_date
-        self.last_modified = last_modified
 
     def json(self):
-        return {'name' : self.name, 'cards': [card.json() for card in cards], 'created_date' : self.created_date, 'last modified' : self.last_modified}
+        return {'name' : self.name, 'cards': [card.json() for card in self.cards]}
 
     @classmethod
     def find_by_name(cls, name):
