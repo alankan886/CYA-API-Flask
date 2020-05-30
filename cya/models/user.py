@@ -1,8 +1,9 @@
+from db import db
 
 class UserModel():
     __tablename__ = 'users'
 
-    id = dbColumn(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
 
