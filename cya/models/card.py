@@ -6,20 +6,17 @@ class CardModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     tag = db.Column(db.String(80))
-    last_checked = db.Column(db.Date)
-    next_checked = db.Column(db.Date)
 
     board_id = db.Column(db.Integer, db.ForeignKey('boards.id'))
     board = db.relationship('BoardModel')
 
-    def __init__(self, name, tag, last_checked, next_checked):
+    def __init__(self, name, tag, board_id):
         self.name = name
         self.tag = tag
-        self.last_checked = last_checked
-        self.next_checked = next_checked
+        self.board_id = board_id
 
     def json(self):
-        return {'name' : self.name, 'tag' : self.tag, 'last checked' : self.last_checked, 'next checked' : self.next_checked}
+        return {'name' : self.name, 'tag' : self.tag, 'board_id' : self.board_id}
     
     @classmethod
     def find_by_name(cls, name):
