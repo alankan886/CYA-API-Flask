@@ -9,4 +9,5 @@ convention = {
     "pk": "pk_%(table_name)s"
 }
 
-db = SQLAlchemy()
+metadata = MetaData(naming_convention=convention)
+db = SQLAlchemy(metadata=metadata)
