@@ -1,18 +1,21 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api, Resource
 from flask_jwt import JWT
 from flask_migrate import Migrate
+from marshmallow import ValidationError
 
 from auth import authenticate, identity
 from resources.card import Card, CardList
 from resources.board import Board, BoardList
 from resources.user import UserRegister
 from db import db
+from ma import ma
 import env
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@localhost:3306/{}'.format(env.username, env.password, 'cyaDB')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 api = Api(app)
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -21,6 +24,10 @@ migrate = Migrate(app, db)
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+@app.errorhandler(ValidationError)
+def handle_marshmallow_validation(err):
+    return jsonify(err.message), 400
 
 jwt = JWT(app, authenticate, identity)
 
@@ -31,5 +38,6 @@ api.add_resource(BoardList, '/boards')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
+    ma.init_app(app)
     app.run(port=5000, debug=True)
  
