@@ -1,3 +1,5 @@
+from typing import List
+
 from db import db
 
 class BoardModel(db.Model):
@@ -8,20 +10,18 @@ class BoardModel(db.Model):
 
     cards = db.relationship('CardModel')
 
-    def __init__(self, name):
-        self.name = name
-
-    def json(self):
-        return {'name' : self.name, 'cards': [card.json() for card in self.cards]}
-
     @classmethod
-    def find_by_name(cls, name):
+    def find_by_name(cls, name: str) -> 'BoardModel':
         return cls.query.filter_by(name=name).first()
 
-    def save_to_db(self):
+    @classmethod
+    def find_all(cls) -> List['BoardModel']:
+        return cls.query.all()
+
+    def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
 
-    def delete_from_db(self):
+    def delete_from_db(self) -> None:
         db.session.delete(self)
         db.session.commit()
