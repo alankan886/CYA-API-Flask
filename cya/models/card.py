@@ -1,4 +1,5 @@
 from typing import List
+from datetime import date
 
 from db import db
 
@@ -8,7 +9,8 @@ class CardModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     tag = db.Column(db.String(80))
-    last_checked = db.Column(db.DateTime)
+    last_checked = db.Column(db.Date, default=date.today)
+    next_check = db.Column(db.Date, nullable=False)
 
     board_id = db.Column(db.Integer, db.ForeignKey('boards.id'), nullable=False)
     board = db.relationship('BoardModel')
