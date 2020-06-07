@@ -26,7 +26,7 @@ class Board(Resource):
         if BoardModel.find_by_name(name):
             return {"message" : NAME_ALREADY_EXISTS.format(name)}, 400
 
-        board = BoardModel(name)
+        board = BoardModel(name=name)
         try:
             board.save_to_db()
         except:
