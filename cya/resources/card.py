@@ -46,8 +46,12 @@ class Card(Resource):
         card = CardModel.find_by_name(name)
 
         if card:
-            card.tag = card_json['tag']
-            card.last_checked = card_json['last_checked']
+            if 'tag' in card_json:
+                card.tag = card_json['tag']
+            if 'last_checked' in card_json:
+                card.last_checked = card_json['last_checked']
+            if 'next_check' in card_json:
+                card.next_check = card_json['next_check']
         else:
             card_json["name"] = name
             card = card_schema.load(card_json)
