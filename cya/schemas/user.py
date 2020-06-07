@@ -1,4 +1,4 @@
 from ma import ma
 
-class UserSchema(ma.ModelSchema):
+class UserSchema(ma.SQLAlchemyAutoSchema):
     pass
