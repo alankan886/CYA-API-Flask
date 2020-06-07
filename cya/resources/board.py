@@ -1,37 +1,50 @@
 from flask_restful import Resource
+
 from models.board import BoardModel
+from schemas.board import BoardSchema
+
+NAME_ALREADY_EXISTS = "A board with name '{}' already exists."
+BOARD_NOT_FOUND = "Board not found."
+BOARD_DELETED = "Board deleted."
+ERROR_INSERTING = "An error occurred while inserting the board."
+
+board_schema = BoardSchema()
+board_list_schema = BoardSchema(many=True)
 
 
 class Board(Resource):
-    def get(self, name):
+    @classmethod
+    def get(cls, name: str):
         board = BoardModel.find_by_name(name)
         if board:
-            return board.json()
+            return board_schema.dump(board), 200
         
-        return {'message' : 'Board not found.'}, 404
+        return {"message" : BOARD_NOT_FOUND}, 404
 
-    def post(self, name):
+    @classmethod
+    def post(cls, name: str):
         if BoardModel.find_by_name(name):
-            return {'message' : "A board with name '{}' already exists.".format(name)}, 400
+            return {"message" : NAME_ALREADY_EXISTS.format(name)}, 400
 
         board = BoardModel(name)
         try:
             board.save_to_db()
         except:
-            return {'message' : 'An error occurred creating the board.'}, 500
+            return {"message" : ERROR_INSERTING}, 500
         
-        return board.json(), 201
+        return board_schema.dump(board), 201
 
-    def put(self, name):
-        pass
-
-    def delete(self, name):
+    @classmethod
+    def delete(cls, name: str):
         board = BoardModel.find_by_name(name)
         if board:
             board.delete_from_db()
-        
-        return {'message' : 'Board deleted.'}
+            return {"message" : BOARD_DELETED}, 200
+
+        return board_schema.dump(board), 201
+
 
 class BoardList(Resource):
-    def get(self):
-        return {'boards' : list(map(lambda x: x.json(), BoardModel.query.all()))}
+    @classmethod
+    def get(cls):
+        return {'boards' : board_list_schema.dump(BoardModel.find_all())}, 200
