@@ -8,6 +8,7 @@ from schemas.card import CardSchema
 NAME_ALREADY_EXISTS = "An card with name '{}' already exists."
 CARD_NOT_FOUND = "Card not found."
 CARD_DELETED = "Card deleted."
+CARDS_DELETED = "Cards deleted."
 ERROR_INSERTING = "An error occurred while inserting the item."
 
 card_schema = CardSchema()
@@ -69,3 +70,10 @@ class CardList(Resource):
     @classmethod
     def get(cls):
         return {'cards' : card_list_schema.dump(CardModel.find_all())}, 200
+    
+    @classmethod
+    def delete(cls):
+        for card in CardModel.find_all():
+            card.delete_from_db()
+
+        return {"message" : CARDS_DELETED}
