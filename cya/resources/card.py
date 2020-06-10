@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required, fresh_jwt_required
 
 from models.card import CardModel
 from schemas.card import CardSchema
@@ -16,14 +16,16 @@ card_list_schema = CardSchema(many=True)
 
 class Card(Resource):
     @classmethod
+    @jwt_required
     def get(cls, name: str):
         card = CardModel.find_by_name(name)
         if card:
             return card_schema.dump(card), 200
         
         return {"message" : CARD_NOT_FOUND}, 404
-
+    
     @classmethod
+    @jwt_required
     def post(cls, name: str):
         if CardModel.find_by_name(name):
             return {"message" : NAME_ALREADY_EXISTS.format(name)}, 400
@@ -41,6 +43,7 @@ class Card(Resource):
         return card_schema.dump(card), 201
 
     @classmethod
+    @fresh_jwt_required
     def put(cls, name: str):
         card_json = request.get_json()
         card = CardModel.find_by_name(name)
@@ -61,6 +64,7 @@ class Card(Resource):
         return card_schema.dump(card), 200
 
     @classmethod
+    @fresh_jwt_required
     def delete(cls, name: str):
         card = CardModel.find_by_name(name)
         if card:
@@ -72,10 +76,12 @@ class Card(Resource):
 
 class CardList(Resource):
     @classmethod
+    @jwt_required
     def get(cls):
         return {'cards' : card_list_schema.dump(CardModel.find_all())}, 200
     
     @classmethod
+    @fresh_jwt_required
     def delete(cls):
         for card in CardModel.find_all():
             card.delete_from_db()
