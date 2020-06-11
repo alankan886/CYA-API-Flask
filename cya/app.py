@@ -80,12 +80,12 @@ def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACKLIST
 
 
-api.add_resource(Card, '/card/<string:name>')
-api.add_resource(CardList, '/cards')
-api.add_resource(Board, '/board/<string:name>')
-api.add_resource(BoardList, '/boards')
-api.add_resource(UserRegister, '/register')
-api.add_resource(User, "/user/<int:user_id>")
+api.add_resource(Card, "/<string:board_name>/card/<string:name>")
+api.add_resource(CardList, "/<string:board_name>/cards")
+api.add_resource(Board, "/<string:username>/board/<string:name>")
+api.add_resource(BoardList, "/<string:username>/boards")
+api.add_resource(UserRegister, "/register")
+api.add_resource(User, "/users/<int:user_id>")
 api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(UserLogout, "/logout")
