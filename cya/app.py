@@ -22,7 +22,7 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = [
     "refresh",
 ]
 app.config['JWT_SECRET_KEY'] = env.secret_key
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 180
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1800
 api = Api(app)
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -34,7 +34,7 @@ def create_tables():
 
 @app.errorhandler(ValidationError)
 def handle_marshmallow_validation(err):
-    return jsonify(err.message), 400
+    return jsonify(err), 400
 
 
 jwt = JWTManager(app)
@@ -80,9 +80,9 @@ def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACKLIST
 
 
-api.add_resource(Card, "/<string:board_name>/card/<string:name>")
-api.add_resource(CardList, "/<string:board_name>/cards")
-api.add_resource(Board, "/<string:username>/board/<string:name>")
+api.add_resource(Card, "/<string:username>/<string:board_name>/<string:card_name>")
+api.add_resource(CardList, "/<string:username>/<string:board_name>/cards")
+api.add_resource(Board, "/<string:username>/<string:board_name>")
 api.add_resource(BoardList, "/<string:username>/boards")
 api.add_resource(UserRegister, "/register")
 api.add_resource(User, "/users/<int:user_id>")
