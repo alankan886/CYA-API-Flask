@@ -19,8 +19,20 @@ class CardModel(db.Model):
         return cls.query.filter_by(name=name, board_id=board_id).first()
     
     @classmethod
-    def find_all(cls, board_id: int) -> List['CardModel']:
+    def find_all_by_board_id(cls, board_id: int) -> List['CardModel']:
         return cls.query.filter_by(board_id=board_id).all()
+    
+    @classmethod
+    def find_all_by_date(cls, next_check: date) -> List['CardModel']:
+        return cls.query.filter_by(next_check=next_check).all()
+    
+    @classmethod
+    def find_all_by_date_and_board(cls, next_check: date, board_id: int) -> List['CardModel']:
+        return cls.query.filter_by(next_check=next_check, board_id=board_id).all()
+    
+    @classmethod
+    def calc_next_check(cls):
+        return
     
     def save_to_db(self):
         db.session.add(self)
