@@ -13,15 +13,14 @@ class CardModel(db.Model):
     next_check = db.Column(db.Date, nullable=False)
 
     board_id = db.Column(db.Integer, db.ForeignKey('boards.id'), nullable=False)
-    board = db.relationship('BoardModel')
 
     @classmethod
-    def find_by_name(cls, name: str) -> 'CardModel':
-        return cls.query.filter_by(name=name).first()
-
+    def find_by_name(cls, name: str, board_id: int) -> 'CardModel':
+        return cls.query.filter_by(name=name, board_id=board_id).first()
+    
     @classmethod
-    def find_all(cls) -> List['CardModel']:
-        return cls.query.all()
+    def find_all(cls, board_id: int) -> List['CardModel']:
+        return cls.query.filter_by(board_id=board_id).all()
     
     def save_to_db(self):
         db.session.add(self)
