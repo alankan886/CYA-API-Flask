@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, fresh_jwt_required
@@ -47,7 +49,7 @@ class Card(Resource):
         card_json = request.get_json()
         card_json["name"] = card_name
         card_json["board_id"] = board.id
-
+        
         card = card_schema.load(card_json)
 
         try:
@@ -67,14 +69,15 @@ class Card(Resource):
         card = CardModel.find_by_name(card_name, board.id)
 
         if card:
-            name_already_exists = CardModel.find_by_name(card_json["name"], board.id) != None
-
-            if name_already_exists:
-                return {"message": NAME_ALREADY_EXISTS.format(card_json["name"])}, 400
-
-            if "name" in card_json:
-                card.name = card_json["name"]
             
+            if "name" in card_json:
+                name_already_exists = CardModel.find_by_name(card_json["name"], board.id) != None
+
+                if name_already_exists:
+                    return {"message": NAME_ALREADY_EXISTS.format(card_json["name"])}, 400
+                
+                card.name = card_json["name"]
+
             if "tag" in card_json:
                 card.tag = card_json["tag"]
             
@@ -115,7 +118,9 @@ class CardList(Resource):
         user = UserModel.find_by_username(username)
         board = BoardModel.find_by_name(board_name, user.id)
 
-        return {"cards" : card_list_schema.dump(CardModel.find_all(board.id))}, 200
+        cards = CardModel.find_all_by_board_id(board.id)
+
+        return {"cards" : card_list_schema.dump(cards)}, 200
     
     @classmethod
     @fresh_jwt_required
@@ -123,7 +128,29 @@ class CardList(Resource):
         user = UserModel.find_by_username(username)
         board = BoardModel.find_by_name(board_name, user.id)
 
-        for card in CardModel.find_all(board.id):
+        for card in CardModel.find_all_by_board_id(board.id):
             card.delete_from_db()
 
         return {"message" : CARDS_DELETED}
+
+class CardsDueToday(Resource):
+    @classmethod
+    @jwt_required
+    def get(cls, username: str):
+        user = UserModel.find_by_username(username)
+
+        cards = CardModel.find_all_by_date(date.today())
+
+        return {"cards": card_list_schema.dump(cards)}, 200
+
+
+class CardsDueTodayOnBoard(Resource):
+    @classmethod
+    @jwt_required
+    def get(cls, board_name: str, username: str):
+        user = UserModel.find_by_username(username)
+        board = BoardModel.find_by_name(board_name, user.id)
+
+        cards = CardModel.find_all_by_date_and_board(date.today(), board.id)
+
+        return {"cards": card_list_schema.dump(cards)}, 200
