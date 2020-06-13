@@ -14,6 +14,7 @@ from models.user import UserModel
 from schemas.user import UserSchema
 from blacklist import BLACKLIST
 
+
 USER_ALREADY_EXISTS = "A user with the same username already exists."
 CREATED_SUCCESSFULLY = "User created successfully."
 USER_NOT_FOUND = "User not found."
@@ -68,7 +69,7 @@ class UserLogin(Resource):
         if user and safe_str_cmp(user_data.password, user.password):
             access_token = create_access_token(identity=user.id, fresh=True)
             refresh_token = create_refresh_token(identity=user.id)
-            return {"access_token": access_token, "refresh_token": refresh_token}, 200
+            return {"username": user.username, "access_token": access_token, "refresh_token": refresh_token}, 200
         
         return {"message": INVALID_CREDENTIALS}, 401
     
