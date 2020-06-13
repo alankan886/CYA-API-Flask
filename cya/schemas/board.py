@@ -4,7 +4,7 @@ from models.card import CardModel
 from schemas.card import CardSchema
 
 class BoardSchema(ma.SQLAlchemyAutoSchema):
-    items = ma.Nested(CardSchema, many=True)
+    cards = ma.Nested(CardSchema, many=True)
 
     class Meta:
         model = BoardModel
