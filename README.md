@@ -7,10 +7,13 @@ A RESTful API built in Flask for spaced repetition studying.
 ## Table of Contents
 
 - Demo
-- Motivation
-- Quick Start
-- Technologies Used - RESTful API - Cloud - Testing
-- LICENSE
+ - Motivation
+ - Quick Start
+ - Technologies Used
+	- RESTful API
+	- Cloud 
+	- Testing
+ - LICENSE
 
 ## Demo
 
