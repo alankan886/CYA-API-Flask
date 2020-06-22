@@ -10,19 +10,17 @@ from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefre
 from db import db
 from ma import ma
 from blacklist import BLACKLIST
-import env
 
 application = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@localhost:3306/{}'.format(env.username, env.password, 'cyaDB')
+application.config.from_pyfile("config.py")
 #application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@cyadb-test.chcojzenikno.us-east-1.rds.amazonaws.com:3306/{}'.format(env.username, env.password, 'cyaDB_test')
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['PROPAGATE_EXCEPTIONS'] = True
 application.config['JWT_BLACKLIST_ENABLED'] = True
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = [
     "access",
     "refresh",
 ]
-application.config['JWT_SECRET_KEY'] = env.secret_key
+#application.config['JWT_SECRET_KEY'] = config.SECRET_KEY
 application.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1800
 api = Api(application)
 db.init_app(application)
