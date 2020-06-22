@@ -13,7 +13,8 @@ from blacklist import BLACKLIST
 import env
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@localhost:3306/{}'.format(env.username, env.password, 'cyaDB')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@localhost:3306/{}'.format(env.username, env.password, 'cyaDB')
+#application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@cyadb-test.chcojzenikno.us-east-1.rds.amazonaws.com:3306/{}'.format(env.username, env.password, 'cyaDB_test')
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['PROPAGATE_EXCEPTIONS'] = True
 application.config['JWT_BLACKLIST_ENABLED'] = True
@@ -97,5 +98,7 @@ api.add_resource(UserLogout, "/logout")
 
 if __name__ == '__main__':
     ma.init_app(application)
-    application.run(port=5000, debug=True)
+    # remove debug=True in production
+    # This port number should match your EB EC2 inbound port number, not sure do you need to set it.
+    application.run()
  
