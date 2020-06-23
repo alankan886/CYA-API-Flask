@@ -1,4 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy as SQLAlchemyBase
 from sqlalchemy import MetaData
 from sqlalchemy.pool import NullPool
 from config import SQLALCHEMY_DATABASE_URI
@@ -11,10 +11,11 @@ convention = {
     "pk": "pk_%(table_name)s"
 }
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URI,
-    poolclass=NullPool
-)
+class SQLAlchemy(SQLAlchemyBase):
+    def apply_driver_hacks(self, app, info, options):
+        super(SQLAlchemy, self).apply_driver_hacks(app, info, options)
+        options['poolclass'] = NullPool
+        options.pop('pool_size', None)
 
 metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(metadata=metadata)
