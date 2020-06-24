@@ -13,14 +13,12 @@ from blacklist import BLACKLIST
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
-#application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@cyadb-test.chcojzenikno.us-east-1.rds.amazonaws.com:3306/{}'.format(env.username, env.password, 'cyaDB_test')
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = [
     "access",
     "refresh",
 ]
-#application.config['JWT_SECRET_KEY'] = config.SECRET_KEY
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1800
 api = Api(app)
 db.init_app(app)
