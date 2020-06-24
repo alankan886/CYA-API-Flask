@@ -95,6 +95,5 @@ api.add_resource(UserLogout, "/logout")
 if __name__ == '__main__':
     ma.init_app(app)
     # remove debug=True in production
-    # This port number should match your EB EC2 inbound port number, not sure do you need to set it.
     app.run()
  
