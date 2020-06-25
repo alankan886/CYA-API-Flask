@@ -7,22 +7,26 @@ from marshmallow import ValidationError
 from resources.card import Card, CardList, CardsDueToday, CardsDueTodayOnBoard
 from resources.board import Board, BoardList
 from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefresh
+from jwt_error_handle import (
+    expired_token_callback,
+    invalid_token_callback,
+    missing_token_callback,
+    token_not_fresh_callback,
+    revoked_token_callback,
+)
+
 from db import db
 from ma import ma
 from blacklist import BLACKLIST
 
+
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
-app.config['PROPAGATE_EXCEPTIONS'] = True
-app.config['JWT_BLACKLIST_ENABLED'] = True
-app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = [
-    "access",
-    "refresh",
-]
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1800
+
 api = Api(app)
 db.init_app(app)
 migrate = Migrate(app, db)
+jwt = JWTManager(app)
 
 
 @app.before_first_request
@@ -33,48 +37,16 @@ def create_tables():
 def handle_marshmallow_validation(err):
     return jsonify(err), 400
 
-
-jwt = JWTManager(app)
-
-
-@jwt.expired_token_loader
-def expired_token_callback():
-    return jsonify({
-        "description": "The token has expired.",
-        "error": "token_expired"
-    }), 401
-
-@jwt.invalid_token_loader
-def invalid_token_callback(error):
-    return jsonify({
-        "description": "Signature verification failed.",
-        "error": "invalid_token"
-    }), 401
-
-@jwt.unauthorized_loader
-def missing_token_callback(error):
-    return jsonify({
-        "description": "Request does not contain an access token.",
-        "error": "authorization_required"
-    }), 401
-
-@jwt.needs_fresh_token_loader
-def token_not_fresh_callback():
-    return jsonify({
-        "description": "The token is not fresh.",
-        "error": "fresh_token_required"
-    }), 401
-
-@jwt.revoked_token_loader
-def revoked_token_callback():
-    return jsonify({
-        "description": "The token has been revoked.",
-        "error": "token_revoked"
-    }), 401
-
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACKLIST
+
+# Decorating the functions
+expired_token_callback = jwt.expired_token_loader(expired_token_callback)
+invalid_token_callback = jwt.invalid_token_loader(invalid_token_callback)
+missing_token_callback = jwt.unauthorized_loader(missing_token_callback)
+token_not_fresh_callback = jwt.needs_fresh_token_loader(token_not_fresh_callback)
+revoked_token_callback = jwt.revoked_token_loader(revoked_token_callback)
 
 
 api.add_resource(Card, "/<string:username>/<string:board_name>/<string:card_name>")
@@ -91,9 +63,7 @@ api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(UserLogout, "/logout")
 
-
 if __name__ == '__main__':
     ma.init_app(app)
-    # remove debug=True in production
     app.run()
  
