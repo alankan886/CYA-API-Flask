@@ -62,7 +62,6 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
  - #### Hosting :arrow_right: Heroku
  - #### Database :arrow_right: AWS RDS
 
-#### Hosting
 ## To-do
 
  1. I'm planning on adding a frontend to this project, creating a SPA that interacts with the API.
