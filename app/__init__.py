@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify
+from flask import Flask, Blueprint
 from flask_restful import Api
 
 from config import config
