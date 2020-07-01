@@ -1,4 +1,4 @@
-from ..ma import ma
+from ..extensions.ma import ma
 from ..models.board import BoardModel
 from ..models.card import CardModel
 from ..schemas.card import CardSchema

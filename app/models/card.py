@@ -1,7 +1,7 @@
 from typing import List
 from datetime import date
 
-from ..db import db
+from ..extensions.db import db
 
 class CardModel(db.Model):
     __tablename__ = 'cards'

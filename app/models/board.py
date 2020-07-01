@@ -1,6 +1,6 @@
 from typing import List
 
-from ..db import db
+from ..extensions.db import db
 
 class BoardModel(db.Model):
     __tablename__ = 'boards'
