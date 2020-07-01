@@ -5,7 +5,7 @@ from flask import current_app
 from dotenv import load_dotenv, find_dotenv
 
 from app import create_app
-from app.db import db
+from app.extensions.db import db
 
 class BasicsTestCase(unittest.TestCase):
     def setUp(self):
