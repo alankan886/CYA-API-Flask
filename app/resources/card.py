@@ -7,7 +7,9 @@ from flask_jwt_extended import jwt_required, fresh_jwt_required
 from ..models.card import CardModel
 from ..models.board import BoardModel
 from ..models.user import UserModel
+from ..models.card_sm_info import CardSMInfoModel
 from ..schemas.card import CardSchema
+from ..schemas.card_sm_info import CardSMInfoSchema
 
 
 NAME_ALREADY_EXISTS = "An card with name '{}' already exists."
@@ -19,6 +21,7 @@ BOARD_NOT_FOUND = "Board not found."
 
 card_schema = CardSchema()
 card_list_schema = CardSchema(many=True)
+card_sm_info_schema = CardSMInfoSchema()
 
 
 class Card(Resource):
@@ -46,14 +49,40 @@ class Card(Resource):
         if CardModel.find_by_name(card_name, board.id):
             return {"message": NAME_ALREADY_EXISTS.format(card_name)}, 400
         
+        latest_card = CardModel.find_next_card_id(board.id)
+        if latest_card:
+            new_card_id = latest_card.id + 1
+        else:
+            new_card_id = 1
+
         card_json = request.get_json()
         card_json["name"] = card_name
         card_json["board_id"] = board.id
+        card_json["id"] = new_card_id
+
         
+        last_review = None
+        if "last_review" in card_json:
+            last_review = card_json["last_review"]
+        
+        quality = card_json["quality"]
+        card_sm_info = CardSMInfoModel.calc_sm_info(quality=quality, first_visit=True, last_review=last_review)
+        
+        next_review = card_sm_info.next_review
+        last_review = str(card_sm_info.last_review)
+
+        card_json["next_review"] = next_review
         card = card_schema.load(card_json)
 
+        card_sm_json = card_sm_info.json()
+        card_sm_json["quality"] = quality
+        card_sm_json["last_review"] = last_review
+        card_sm_json["card_id"] = new_card_id
+        card_sm = card_sm_info_schema.load(card_sm_json)
+        
         try:
             card.save_to_db()
+            card_sm.save_to_db()
         except:
             return {"message" : ERROR_INSERTING}, 500
         
@@ -81,11 +110,11 @@ class Card(Resource):
             if "tag" in card_json:
                 card.tag = card_json["tag"]
             
-            if "last_checked" in card_json:
-                card.last_checked = card_json["last_checked"]
+            if "last_review" in card_json:
+                card.last_review = card_json["last_review"]
             
-            if "next_check" in card_json:
-                card.next_check = card_json["next_check"]            
+            if "next_review" in card_json:
+                card.next_review = card_json["next_review"]            
         else:
             card_json["name"] = card_name
             card = card_schema.load(card_json)
