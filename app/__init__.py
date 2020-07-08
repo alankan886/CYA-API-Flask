@@ -15,12 +15,12 @@ def create_app(config_name: str):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    from .extensions.db import db
+    db.init_app(app)
+
     from .extensions.ma import ma
     ma.init_app(app)
 
-    from .extensions.db import db
-    db.init_app(app)
-    
     from .extensions.migrate import migrate
     migrate.init_app(app, db)
 
