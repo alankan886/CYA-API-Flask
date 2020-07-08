@@ -1,7 +1,6 @@
 from ..extensions.ma import ma
 from ..models.card import CardModel
 from ..models.board import BoardModel
-from ..models.card_sm_info import CardSMInfoModel
 from ..schemas.card_sm_info import CardSMInfoSchema
 
 class CardSchema(ma.SQLAlchemyAutoSchema):
