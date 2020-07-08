@@ -13,8 +13,8 @@ BOARD_DELETED = "Board deleted."
 ERROR_INSERTING = "An error occurred while inserting the board."
 NO_REQUEST_BODY = "No update due to empty request body."
 
-board_schema = BoardSchema()
-board_list_schema = BoardSchema(many=True)
+board_schema = BoardSchema(load_only=("cards.card_sm_info",))
+board_list_schema = BoardSchema(many=True, load_only=("cards",))
 
 
 class Board(Resource):
