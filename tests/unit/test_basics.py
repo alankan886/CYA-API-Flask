@@ -12,7 +12,6 @@ class BasicsTestCase(unittest.TestCase):
         load_dotenv(find_dotenv())
 
         config_name = os.environ.get('FLASK_ENV')
-        print(config_name)
         self.app = create_app(config_name)
         self.app_context = self.app.app_context()
         self.app_context.push()
