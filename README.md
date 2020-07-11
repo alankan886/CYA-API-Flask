@@ -64,41 +64,30 @@ To interact with the REST API, here are the endpoints categorized by resources.
 ## Technologies Used
 ### RESTful API
 
-:clipboard: API
-&nbsp;&nbsp;&nbsp;:pushpin: *Flask*
-&nbsp;&nbsp;&nbsp;:pushpin: *Flask-RESTful*
+:clipboard: API <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask* <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-RESTful*
 
-:clipboard: ORM (Object Relational Mapper)
-&nbsp;&nbsp;&nbsp;:pushpin: *Flask-SQLAlchemy*
+:clipboard: ORM (Object Relational Mapper) <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-SQLAlchemy*
 
-:clipboard: Data Serialization
-&nbsp;&nbsp;&nbsp;:pushpin: *Flask-Marshmallow*
+:clipboard: Data Serialization <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Marshmallow*
 
-:clipboard: Database Migration
-&nbsp;&nbsp;&nbsp;:pushpin: *Flask-Migrate (alembic)*
+:clipboard: Database Migration <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Migrate (alembic)*
 
 
-:clipboard: Token Authentication
-&nbsp;&nbsp;&nbsp;:pushpin:*Flask-JWT-Extended*
+:clipboard: Token Authentication <br/> &nbsp;&nbsp;&nbsp;:pushpin:*Flask-JWT-Extended*
 
-:clipboard: Spaced Repetition Algorithm 
-&nbsp;&nbsp;&nbsp;:pushpin: SuperMemo2 (My own package!)
+:clipboard: Spaced Repetition Algorithm <br/> &nbsp;&nbsp;&nbsp;:pushpin: SuperMemo2 (My own package!)
 
 ### Testing
-:clipboard: Unit & Integration Testing
-&nbsp;&nbsp;&nbsp;:pushpin: Unittest (Built-in Python Library)
-&nbsp;&nbsp;&nbsp;:pushpin: Nose2
+:clipboard: Unit & Integration Testing <br/> &nbsp;&nbsp;&nbsp;:pushpin: Unittest (Built-in Python Library) <br/> &nbsp;&nbsp;&nbsp;:pushpin: Nose2
 
 ### Cloud
 
- :clipboard: Service Hosting
- &nbsp;&nbsp;&nbsp;:pushpin: Heroku
-:clipboard: Database
-&nbsp;&nbsp;&nbsp;:pushpin: AWS RDS
+ :clipboard: Service Hosting <br/> &nbsp;&nbsp;&nbsp;:pushpin: Heroku
+ 
+:clipboard: Database <br/> &nbsp;&nbsp;&nbsp;:pushpin: AWS RDS
 
 ### Env/Config
-:clipboard: Python-Dotenv
-&nbsp;&nbsp;&nbsp;:pushpin: For easier local configurations using dotenv file.
+:clipboard: Python-Dotenv <br/> &nbsp;&nbsp;&nbsp;:pushpin: For easier local configurations using dotenv file.
 
 <a name="pjstruct"/> </br>
 ## Project Structure
