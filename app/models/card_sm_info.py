@@ -22,20 +22,20 @@ class CardSMInfoModel(db.Model):
         return cls.query.filter_by(id=id).first()
     
     @classmethod
-    def find_latest_review(cls) -> 'CardSMInfoModel':
-        return
+    def find_latest_review(cls, card_id: int) -> 'CardSMInfoModel':
+        return cls.query.filter_by(card_id=card_id).order_by(cls.last_review.desc()).first()
 
     @classmethod
-    def calc_sm_info(cls, quality, first_visit, last_review) -> 'CardSMInfoModel':
+    def calc_sm_info(cls, quality, first_visit, new_interval=None, new_repetitions=None, new_easiness=None, last_review=None) -> 'CardSMInfoModel':
         if first_visit:
             sm_two = SMTwo(quality=quality, first_visit=True)
         else:
             # TODO: This might be wrong, because I would need to search up the latest record, then pass those values.
             sm_two = SMTwo(
                 quality=quality,
-                interval=cls.new_interval,
-                repetitions=cls.new_repetitions,
-                easiness=cls.new_easiness,
+                interval=new_interval,
+                repetitions=new_repetitions,
+                easiness=new_easiness,
                 last_review=last_review)
 
         return sm_two
