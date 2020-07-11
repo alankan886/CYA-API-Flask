@@ -48,14 +48,47 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 To interact with the REST API, here are the endpoints categorized by resources.
 
 ### Endpoints
+The base url would be [https://cya-api.herokuapp.com/](https://cya-api.herokuapp.com/)
+
 <a name="user"/> </br>
-#### User
+### User
+| Field | Description |
+|--|--|
+| **id** | The user's id |
+| username | The user's unique username |
 
+#### Register
 
+    curl --location --request POST '{BASE_URL}/register' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    	"username": "{USERNAME}",
+    	"password": "{PASSWORD}"
+    }'
+
+#### Login
+![](/images/user-login.png)
+
+#### 
 <a name="board"/> </br>
-#### Board
+### Board
+| Field | Description |
+|--|--|
+| **id** | The board's id. |
+| name | The board's unique name. |
+| user_id | The user id of the user that owns this board. |
+
 <a name="card"/> </br>
-#### Card
+### Card
+| Field | Description |
+|--|--|
+| **id** | The card's id. |
+| name | The card's unique name. |
+| tag | The category tag that attaches to the card |
+| quality | The quality of the review. Check [here](https://github.com/alankan2004/SuperMemo2/blob/master/README.md#qism2) for more detail description. |
+| last_review | The date of the last time this card is reviewed. |
+| next_review | The date of the next time this card should be reviewed. |
+| board_id | The board id of the board that card belongs to. |
 
 <a name="quickstart"/> </br>
 ## Quick Start
@@ -157,10 +190,9 @@ To interact with the REST API, here are the endpoints categorized by resources.
 <a name="todo"/> </br>
 ## To-do
 
-- [ ] I'm planning on adding a frontend to this project, creating a SPA that interacts with the API.
-	 - Technologies I'm planning to use are React, TypeScript and either Redux or Hooks.
-- [ ] Implement the spaced repetition algorithm for calculating the next review date.
-- [ ] Learning Redis and implementing it for JWT tokens.
+- [ ] Add a frontend that interact with the API.
+- [ ] Add Flask Blueprints for API versioning.
+- [x] ~~Implement the spaced repetition algorithm for calculating the next review date.~~
 - [ ] Password hashing before storing to database.
 - [ ] Add created_at column in all the database tables.
 
