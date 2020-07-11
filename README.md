@@ -64,30 +64,30 @@ To interact with the REST API, here are the endpoints categorized by resources.
 ## Technologies Used
 ### RESTful API
 
-:clipboard: API <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask* <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-RESTful*
+:clipboard:&nbsp;API <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask* <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-RESTful*
 
-:clipboard: ORM (Object Relational Mapper) <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-SQLAlchemy*
+:clipboard:&nbsp;ORM (Object Relational Mapper) <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-SQLAlchemy*
 
-:clipboard: Data Serialization <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Marshmallow*
+:clipboard:&nbsp;Data Serialization <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Marshmallow*
 
-:clipboard: Database Migration <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Migrate (alembic)*
+:clipboard:&nbsp;Database Migration <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-Migrate (alembic)*
 
 
-:clipboard: Token Authentication <br/> &nbsp;&nbsp;&nbsp;:pushpin:*Flask-JWT-Extended*
+:clipboard:&nbsp;Token Authentication <br/> &nbsp;&nbsp;&nbsp;:pushpin: *Flask-JWT-Extended*
 
-:clipboard: Spaced Repetition Algorithm <br/> &nbsp;&nbsp;&nbsp;:pushpin: SuperMemo2 (My own package!)
+:clipboard:&nbsp;Spaced Repetition Algorithm <br/> &nbsp;&nbsp;&nbsp;:pushpin: SuperMemo2 (My own package!)
 
 ### Testing
-:clipboard: Unit & Integration Testing <br/> &nbsp;&nbsp;&nbsp;:pushpin: Unittest (Built-in Python Library) <br/> &nbsp;&nbsp;&nbsp;:pushpin: Nose2
+:clipboard:&nbsp;Unit & Integration Testing <br/> &nbsp;&nbsp;&nbsp;:pushpin: Unittest (Built-in Python Library) <br/> &nbsp;&nbsp;&nbsp;:pushpin: Nose2
 
 ### Cloud
 
- :clipboard: Service Hosting <br/> &nbsp;&nbsp;&nbsp;:pushpin: Heroku
+ :clipboard:&nbsp;Service Hosting <br/> &nbsp;&nbsp;&nbsp;:pushpin: Heroku
  
-:clipboard: Database <br/> &nbsp;&nbsp;&nbsp;:pushpin: AWS RDS
+:clipboard:&nbsp;Database <br/> &nbsp;&nbsp;&nbsp;:pushpin: AWS RDS
 
 ### Env/Config
-:clipboard: Python-Dotenv <br/> &nbsp;&nbsp;&nbsp;:pushpin: For easier local configurations using dotenv file.
+:clipboard:&nbsp;Python-Dotenv <br/> &nbsp;&nbsp;&nbsp;:pushpin: *For easier local configurations using dotenv file.*
 
 <a name="pjstruct"/> </br>
 ## Project Structure
