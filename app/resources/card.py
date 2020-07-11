@@ -18,9 +18,10 @@ CARD_DELETED = "Card deleted."
 CARDS_DELETED = "Cards deleted."
 ERROR_INSERTING = "An error occurred while inserting the item."
 BOARD_NOT_FOUND = "Board not found."
+BAD_QUALITY_UPDATE = "Quality should be updated through card_sm_info, if the card already exists."
 
 card_schema = CardSchema()
-card_list_schema = CardSchema(many=True)
+card_list_schema = CardSchema(many=True, load_only=("card_sm_info",))
 card_sm_info_schema = CardSMInfoSchema()
 
 
@@ -78,11 +79,11 @@ class Card(Resource):
         card_sm_json["quality"] = quality
         card_sm_json["last_review"] = last_review
         card_sm_json["card_id"] = new_card_id
-        card_sm = card_sm_info_schema.load(card_sm_json)
+        card_sm_info = card_sm_info_schema.load(card_sm_json)
         
         try:
             card.save_to_db()
-            card_sm.save_to_db()
+            card_sm_info.save_to_db()
         except:
             return {"message" : ERROR_INSERTING}, 500
         
@@ -98,7 +99,9 @@ class Card(Resource):
         card = CardModel.find_by_name(card_name, board.id)
 
         if card:
-            
+            if "quality" in card_json:
+                return {"message": BAD_QUALITY_UPDATE}
+                
             if "name" in card_json:
                 name_already_exists = CardModel.find_by_name(card_json["name"], board.id) != None
 
