@@ -1,6 +1,6 @@
 from flask import current_app
 
-from .conftest import app
+from ..conftest import app
 
 def test_app_exists(app):
     with app.app_context():
