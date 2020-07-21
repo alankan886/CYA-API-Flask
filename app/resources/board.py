@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, fresh_jwt_required
+from flask_jwt_extended import jwt_required, fresh_jwt_required, get_jwt_identity
 
 from ..models.board import BoardModel
 from ..models.user import UserModel
@@ -12,6 +12,7 @@ BOARD_NOT_FOUND = "Board not found."
 BOARD_DELETED = "Board deleted."
 ERROR_INSERTING = "An error occurred while inserting the board."
 NO_REQUEST_BODY = "No update due to empty request body."
+INCORRECT_USERNAME = "Incorrect username."
 
 board_schema = BoardSchema(load_only=("cards.card_sm_info",))
 board_list_schema = BoardSchema(many=True, load_only=("cards",))
@@ -22,17 +23,23 @@ class Board(Resource):
     @jwt_required
     def get(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+        
         board = BoardModel.find_by_name(board_name, user.id)
         
         if board:
             return board_schema.dump(board), 200
         
-        return {"message" : BOARD_NOT_FOUND}, 404
+        return {"message": BOARD_NOT_FOUND}, 404
 
     @classmethod
     @jwt_required
     def post(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
         
         if board:
@@ -51,6 +58,9 @@ class Board(Resource):
     @fresh_jwt_required
     def put(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
 
         board_json = request.get_json()
@@ -81,6 +91,9 @@ class Board(Resource):
     @fresh_jwt_required
     def delete(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
         
         if board:
@@ -95,4 +108,7 @@ class BoardList(Resource):
     @jwt_required
     def get(cls, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         return {'boards' : board_list_schema.dump(BoardModel.find_all(user.id))}, 200

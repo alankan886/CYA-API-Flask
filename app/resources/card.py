@@ -19,6 +19,8 @@ CARDS_DELETED = "Cards deleted."
 ERROR_INSERTING = "An error occurred while inserting the item."
 BOARD_NOT_FOUND = "Board not found."
 BAD_QUALITY_UPDATE = "Quality should be updated through card_sm_info, if the card already exists."
+INCORRECT_USERNAME = "Incorrect username."
+
 
 card_schema = CardSchema()
 card_list_schema = CardSchema(many=True, load_only=("card_sm_info",))
@@ -30,7 +32,13 @@ class Card(Resource):
     @jwt_required
     def get(cls, card_name: str, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+        
         board = BoardModel.find_by_name(board_name, user.id)
+        if not board:
+            return {"message": BOARD_NOT_FOUND }, 404
+
         card = CardModel.find_by_name(card_name, board.id)
 
         if card:
@@ -42,6 +50,9 @@ class Card(Resource):
     @jwt_required
     def post(cls, card_name: str, board_name: str,username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+        
         board = BoardModel.find_by_name(board_name, user.id)
 
         if not board:
@@ -93,7 +104,12 @@ class Card(Resource):
     @fresh_jwt_required
     def put(cls, card_name: str, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
+        if not board:
+            return {"message": BOARD_NOT_FOUND }, 404
 
         card_json = request.get_json()
         card = CardModel.find_by_name(card_name, board.id)
@@ -133,7 +149,13 @@ class Card(Resource):
     @fresh_jwt_required
     def delete(cls,  card_name: str, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
+        if not board:
+            return {"message": BOARD_NOT_FOUND }, 404
+
         card = CardModel.find_by_name(card_name, board.id)
 
         if card:
@@ -148,7 +170,12 @@ class CardList(Resource):
     @jwt_required
     def get(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
+        if not board:
+            return {"message": BOARD_NOT_FOUND }, 404
 
         cards = CardModel.find_all_by_board_id(board.id)
 
@@ -158,7 +185,12 @@ class CardList(Resource):
     @fresh_jwt_required
     def delete(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
+
         board = BoardModel.find_by_name(board_name, user.id)
+        if not board:
+            return {"message": BOARD_NOT_FOUND }, 404
 
         for card in CardModel.find_all_by_board_id(board.id):
             card.delete_from_db()
@@ -170,6 +202,8 @@ class CardsDueToday(Resource):
     @jwt_required
     def get(cls, username: str):
         user = UserModel.find_by_username(username)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
 
         cards = CardModel.find_all_by_date(date.today())
 
@@ -181,8 +215,11 @@ class CardsDueTodayOnBoard(Resource):
     @jwt_required
     def get(cls, board_name: str, username: str):
         user = UserModel.find_by_username(username)
-        board = BoardModel.find_by_name(board_name, user.id)
+        if user.id != get_jwt_identity():
+            return {'message': INCORRECT_USERNAME}, 400
 
+        board = BoardModel.find_by_name(board_name, user.id)
+        
         if board:
             cards = CardModel.find_all_by_date_and_board(date.today(), board.id)
 
