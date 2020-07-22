@@ -43,7 +43,8 @@ def init_database(request, app, test_client):
         
         boards = user_info[3]
         for board in boards:
-            new_board = BoardModel(name=board, user_id=user_info[0])
+            board_name = board[1]
+            new_board = BoardModel(name=board_name, user_id=user_info[0])
             db.session.add(new_board)
 
         db.session.add(new_user)
