@@ -4,6 +4,7 @@ from supermemo2 import SMTwo
 
 from ..extensions.db import db
 
+
 class CardSMInfoModel(db.Model):
     __tablename__ = 'card_sm_info'
 
@@ -26,9 +27,9 @@ class CardSMInfoModel(db.Model):
         return cls.query.filter_by(card_id=card_id).order_by(cls.last_review.desc()).first()
 
     @classmethod
-    def calc_sm_info(cls, quality, first_visit, new_interval=None, new_repetitions=None, new_easiness=None, last_review=None) -> 'CardSMInfoModel':
+    def calc_sm_info(cls, quality, first_visit, new_interval=None, new_repetitions=None, new_easiness=None, last_review=date.today()):
         if first_visit:
-            sm_two = SMTwo(quality=quality, first_visit=True)
+            sm_two = SMTwo(quality=quality, first_visit=True, last_review=last_review)
         else:
             # TODO: This might be wrong, because I would need to search up the latest record, then pass those values.
             sm_two = SMTwo(
