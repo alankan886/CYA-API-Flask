@@ -19,7 +19,7 @@ from ..test_cases import (
 @pytest.mark.parametrize(attr_names, users_info)
 def test_valid_get_boards(id, username, password, boards, test_client, init_database, auth_tokens):
     response = test_client.get(
-        '/{username}/boards'.format(username=username),
+        '/boards',
         headers={"authorization": "Bearer {}".format(auth_tokens.access_tokens[id-1])}
     )
 
@@ -41,7 +41,7 @@ def test_valid_get_by_board_name(id, username, password, boards, test_client, in
         board_id = board[0]
         board_name = board[1]
         response = test_client.get(
-            '/{username}/{board_name}'.format(username=username, board_name=board_name),
+            '/{board_name}'.format(board_name=board_name),
             headers={"authorization": "Bearer {}".format(auth_tokens.access_tokens[id-1])}
         )
 
@@ -60,7 +60,7 @@ def test_valid_post_by_board_name(id, username, password, boards, test_client, i
         board_id = board[0]
         board_name = board[1]
         response = test_client.post(
-            '/{username}/{board_name}'.format(username=username, board_name=board_name),
+            '/{board_name}'.format(board_name=board_name),
             headers={"authorization": "Bearer {}".format(auth_tokens.access_tokens[id-1])}
         )
 
