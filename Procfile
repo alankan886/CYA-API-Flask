@@ -1,1 +1,1 @@
-web: sh -c 'cd ./cya/ && exec gunicorn cya.app:app --log-file -'
+web: gunicorn cya:app
