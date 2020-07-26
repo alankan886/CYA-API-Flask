@@ -1,5 +1,5 @@
 # CYA
-![Python](https://img.shields.io/badge/Python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a) ![Flask](https://img.shields.io/badge/Flask-1.1.2-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-RESTful](https://img.shields.io/badge/Flask--RESTful-0.3.8-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-Migrate](https://img.shields.io/badge/Flask--Migrate-2.5.3-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-JWT-Extended](https://img.shields.io/badge/Flask--JWT--Extended-3.24.1-blue.svg?longCache=true&logo=json-web-tokens&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a)![Flask-Marshmallow](https://img.shields.io/badge/Flask--Marshmallow-0.12.0-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-SQLAlchemy](https://img.shields.io/badge/Flask--SQLAlchemy-2.3.2-red.svg?longCache=true&style=flat-square&logo=scala&logoColor=white&colorA=4c566a&colorB=bf616a) ![Status](https://img.shields.io/badge/Development%20Status-Alpha-critical.svg?style=flat-square&logo=atom&colorA=4c566a&colorB=critical) ![Coverage](https://img.shields.io/badge/Coverage-54%25-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8)  ![Live](https://img.shields.io/badge/API-Live%20on%20Heroku-green.svg?style=flat-square&logo=heroku&colorA=4c566a&colorB=a3be8c) ![Cloud Database](https://img.shields.io/badge/Database-Live%20on%20AWS%20RDS-green.svg?style=flat-square&logo=amazon-aws&colorA=4c566a&colorB=a3be8c)
+![Python](https://img.shields.io/badge/Python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a) ![Flask](https://img.shields.io/badge/Flask-1.1.2-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-RESTful](https://img.shields.io/badge/Flask--RESTful-0.3.8-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-Migrate](https://img.shields.io/badge/Flask--Migrate-2.5.3-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-JWT-Extended](https://img.shields.io/badge/Flask--JWT--Extended-3.24.1-blue.svg?longCache=true&logo=json-web-tokens&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a)![Flask-Marshmallow](https://img.shields.io/badge/Flask--Marshmallow-0.12.0-blue.svg?longCache=true&logo=flask&style=flat-square&logoColor=white&colorB=5e81ac&colorA=4c566a) ![Flask-SQLAlchemy](https://img.shields.io/badge/Flask--SQLAlchemy-2.3.2-red.svg?longCache=true&style=flat-square&logo=scala&logoColor=white&colorA=4c566a&colorB=bf616a) ![Status](https://img.shields.io/badge/Development%20Status-Alpha-critical.svg?style=flat-square&logo=atom&colorA=4c566a&colorB=critical) ![Coverage](https://img.shields.io/badge/Coverage-54%25-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8)  ![Live](https://img.shields.io/badge/API-Live%20on%20Heroku-green.svg?style=flat-square&logo=heroku&colorA=4c566a&colorB=a3be8c) ![Cloud Database](https://img.shields.io/badge/Database-Live%20on%20AWS%20RDS-green.svg?style=flat-square&logo=amazon-aws&colorA=4c566a&colorB=a3be8c) 
 <br>[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/alankan2004.svg?style=social&label=Follow%20%40alankan2004)](https://twitter.com/alankan2004)
 
 A RESTful API built in Flask for spaced repetition studying.
@@ -17,9 +17,25 @@ A RESTful API built in Flask for spaced repetition studying.
 		 - [POST /login](#post-login)
 		 - [POST /logout](#post-logout)
 		 - [POST /refresh](#post-refresh)
-	 - [Board](#board)
+	 - [Board](#board) 
+		 - [GET /boards](#get-boards)
+		 - [GET /<board_name>](#get-board_name)
+		 - [POST /<board_name>](#post-board_name)
+		 - [PUT /<board_name>](#put-board_name)
+		 - [DELETE /<board_name>](#delete-board_name)
 	 - [Card](#card)
+		 - [GET /cards](#get-cards)
+		 - [GET <board_name>/cards](#get-board_name-cards)
+		 - [DELETE <board_name>/cards](#delete-board_name-cards)
+		 - [GET <board_name>/<card_name>](#get-board_name-card_name)
+		 - [POST <board_name>/<card_name>](#post-board_name-card_name)
+		 - [PUT <board_name>/<card_name>](#put-board_name-card_name)
+		 - [DELETE <board_name>/<card_name>](#delete-board_name-card_name)
 	 - [Card-SM-Info](#card-sm-info)
+		 - [GET <board_name>/<card_name>/all-sm2-info](#get-board_name-card_name-all_sm2_info)
+		 - [POST <board_name>/<card_name>/sm2-info](#post-board_name-card_name-sm2_info)
+		 - [PUT <board_name>/<card_name>/sm2-info/\<id>](#put-board_name-card_name-sm2_info-id)
+		 - [DELETE <board_name>/<card_name>/sm2-info/\<id>](#delete-board_name-card_name-sm2_info-id)
 - [Quick Start](#quickstart)
 - [Technologies Used](#techused)
 	 - RESTful API
@@ -28,18 +44,15 @@ A RESTful API built in Flask for spaced repetition studying.
 	 - Env/Config
 - [Project Structure](#pjstruct)
 - [Database Structure](#dbstruct)
-- [To-do](#todo)
 
   
 <a name="demo"/> </br>
 ## Demo
 
-Deployed at [https://cya-api.herokuapp.com/](https://cya-api.herokuapp.com/) (There is no UI that corresponds to the API at the moment.)
+OpenAPI/Swagger UI document deployed at [https://cya-api.herokuapp.com/apidocs/](https://cya-api.herokuapp.com/apidocs/) (There is no UI that corresponds to the API at the moment.)
 
- 1. GIF Demo
- 2. Video Demo
+![](/images/OpenAPI.png)
 
-  
 <a name="motivation"/> </br>
 ## Motivation
 <tab> The reason behind making this API is for my own studying. I always been interested in self-improvement, time management and effective learning, so I been practicing spaced repetition more and more to help myself learn Data Structure and Algorithms.
@@ -50,7 +63,11 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
   
 <a name="features"/> </br>
 ## Features
-Coming soon...
+
+ - API follows the RESTful design.
+ - Allows multiple users to access the API.
+ - API calculates the next review date for whatever you are learning based on the spaced repetition learning algorithm SuperMemo-2.
+ - OpenAPI/Swagger UI supported for simpler access for developers.
 
 <a name="api-ref-index"/> </br>
 ## API Reference Index 
@@ -109,7 +126,8 @@ Coming soon...
 | name | The board's unique name. |
 | user_id | The user id of the user that owns this board. |
 
-### GET <username>/boards
+<a name="get-boards"/> </br>
+### GET /boards
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/boards`
 |||
@@ -117,7 +135,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### GET <username>/<board_name>
+<a name="get-board_name"/> </br>
+### GET /<board_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>`
 |||
@@ -125,7 +144,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### POST <username>/<board_name>
+<a name="post-board_name"/> </br>
+### POST /<board_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>`
 |||
@@ -133,7 +153,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### PUT <username>/<board_name>
+<a name="put-board_name"/> </br>
+### PUT /<board_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>`
 |||
@@ -141,7 +162,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### DELETE <username>/<board_name>
+<a name="delete-board_name"/> </br>
+### DELETE /<board_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>`
 |||
@@ -161,7 +183,8 @@ Coming soon...
 | next_review | The date of the next time this card should be reviewed. |
 | board_id | The board id of the board that card belongs to. |
 
-### GET /\<username>\/cards/today
+<a name="get-cards"/> </br>
+### GET /cards
 **Note:** This endpoint will most likely be removed and change the today resource to a query parameter instead.
 
 #### Resource URL
@@ -170,23 +193,19 @@ Coming soon...
 |--|--|
 | Response format | JSON |
 | Requires authentication? | Yes |
+<br/>
 
-### GET /\<username>\/<board_name>/cards/today
-**Note:** This endpoint will most likely be removed and change the today resource to a query parameter instead.
+|Parameters|type|value|required|
+|--|--|--|--|
+| today | boolean | true/false | No
 
-#### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/cards/today`
-
-|||
-|--|--|
-| Response format | JSON |
-| Requires authentication? | Yes |
-
-### GET /\<username>\/<board_name>/cards
+<a name="get-board_name-cards"/> </br>
+### GET /<board_name>/cards
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/cards`
 
-### DELETE /\<username>\/<board_name>/cards
+<a name="delete-board_name-cards"/> </br>
+### DELETE /<board_name>/cards
 **Note:** The API is in Alpha, so please use this with caution, once it's deleted it's gone. There will be warnings in the future.
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/cards`
@@ -196,7 +215,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### GET /\<username>\/<board_name>/<card_name>
+<a name="get-board_name-card_name"/> </br>
+### GET /<board_name>/<card_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
 |||
@@ -204,7 +224,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### POST /\<username>\/<board_name>/<card_name>
+<a name="post-board_name-card_name"/> </br>
+### POST /<board_name>/<card_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
 |||
@@ -212,7 +233,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### PUT /\<username>\/<board_name>/<card_name>
+<a name="put-board_name-card_name"/> </br>
+### PUT /<board_name>/<card_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
 |||
@@ -220,7 +242,8 @@ Coming soon...
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### DELETE /\<username>\/<board_name>/<card_name>
+<a name="delete-board_name-card_name"/> </br>
+### DELETE /<board_name>/<card_name>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
 |||
@@ -242,7 +265,8 @@ This is for the card's SuperMemo2 information.
 | next_review | The date of the next time this card should be reviewed. |
 | board_id | The board id of the board that card belongs to. |
 
-### GET /\<username>\/<board_name>/<card_name>/all-sm2-info
+<a name="get-board_name-card_name-all_sm2_info"/> </br>
+### GET /<board_name>/<card_name>/all-sm2-info
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/all-sm2-info`
 |||
@@ -250,7 +274,8 @@ This is for the card's SuperMemo2 information.
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-###  POST /\<username>\/<board_name>/<card_name>/sm2-info
+<a name="post-board_name-card_name-sm2_info"/> </br>
+###  POST /<board_name>/<card_name>/sm2-info
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info`
 |||
@@ -258,7 +283,8 @@ This is for the card's SuperMemo2 information.
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### PUT /\<username>\/<board_name>/<card_name>/sm2-info/\<id>
+<a name="put-board_name-card_name-sm2_info-id"/> </br>
+### PUT /<board_name>/<card_name>/sm2-info/\<id>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info/<id>`
 |||
@@ -266,7 +292,8 @@ This is for the card's SuperMemo2 information.
 | Response format | JSON |
 | Requires authentication? | Yes |
 
-### DELETE /\<username>\/<board_name>/<card_name>/sm2-info/\<id>
+<a name="delete-board_name-card_name-sm2_info-id"/> </br>
+### DELETE /<board_name>/<card_name>/sm2-info/\<id>
 #### Resource URL
 `https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info/<id>`
 |||
@@ -276,7 +303,7 @@ This is for the card's SuperMemo2 information.
 
 <a name="quickstart"/> </br>
 ## Quick Start
-
+Coming soon...
 <a name="techused"/> </br>
 ## Technologies Used
 ### RESTful API
@@ -369,15 +396,4 @@ This is for the card's SuperMemo2 information.
 ## Database Structure
 
 ![](/images/cyaDB.jpg)
-
-
-<a name="todo"/> </br>
-## To-do
-
-- [ ] Add a frontend that interact with the API.
-- [ ] Add Flask Blueprints for API versioning.
-- [x] ~~Implement the spaced repetition algorithm for calculating the next review date.~~
-- [ ] Password hashing before storing to database.
-- [ ] Add created_at column in all the database tables.
-- [ ] Add docstring to the code as code documentation.
 
