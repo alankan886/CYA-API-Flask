@@ -17,6 +17,8 @@ class Config:
     ]
     JWT_ACCESS_TOKEN_EXPIRES = 1800
 
+    SWAGGER = {"openapi": "3.0.0"}
+
     @staticmethod
     def init_app(app):
         pass
