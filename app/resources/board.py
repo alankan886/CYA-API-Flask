@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, fresh_jwt_required, get_jwt_identity
+from flasgger import swag_from
 
 from ..models.board import BoardModel
 from ..models.user import UserModel
@@ -21,11 +22,9 @@ board_list_schema = BoardSchema(many=True, load_only=("cards",))
 class Board(Resource):
     @classmethod
     @jwt_required
-    def get(cls, board_name: str, username: str):
-        user = UserModel.find_by_username(username)
-        if user.id != get_jwt_identity():
-            return {'message': INCORRECT_USERNAME}, 400
-        
+    @swag_from('swagger_ui/board/board_get_board_by_name.yml')
+    def get(cls, board_name: str):
+        user = UserModel.find_by_id(get_jwt_identity())
         board = BoardModel.find_by_name(board_name, user.id)
         
         if board:
@@ -35,10 +34,9 @@ class Board(Resource):
 
     @classmethod
     @jwt_required
-    def post(cls, board_name: str, username: str):
-        user = UserModel.find_by_username(username)
-        if user.id != get_jwt_identity():
-            return {'message': INCORRECT_USERNAME}, 400
+    @swag_from('swagger_ui/board/board_post_board_by_name.yml')
+    def post(cls, board_name: str):
+        user = UserModel.find_by_id(get_jwt_identity())
 
         board = BoardModel.find_by_name(board_name, user.id)
         
@@ -56,10 +54,9 @@ class Board(Resource):
 
     @classmethod
     @fresh_jwt_required
-    def put(cls, board_name: str, username: str):
-        user = UserModel.find_by_username(username)
-        if user.id != get_jwt_identity():
-            return {'message': INCORRECT_USERNAME}, 400
+    @swag_from('swagger_ui/board/board_put_board_by_name.yml')
+    def put(cls, board_name: str):
+        user = UserModel.find_by_id(get_jwt_identity())
 
         board = BoardModel.find_by_name(board_name, user.id)
 
@@ -89,10 +86,9 @@ class Board(Resource):
     
     @classmethod
     @fresh_jwt_required
-    def delete(cls, board_name: str, username: str):
-        user = UserModel.find_by_username(username)
-        if user.id != get_jwt_identity():
-            return {'message': INCORRECT_USERNAME}, 400
+    @swag_from('swagger_ui/board/board_delete_board_by_name.yml')
+    def delete(cls, board_name: str):
+        user = UserModel.find_by_id(get_jwt_identity())
 
         board = BoardModel.find_by_name(board_name, user.id)
         
@@ -103,12 +99,10 @@ class Board(Resource):
         return {"message": BOARD_NOT_FOUND}, 404
 
 
-class BoardList(Resource):
+class Boards(Resource):
     @classmethod
     @jwt_required
-    def get(cls, username: str):
-        user = UserModel.find_by_username(username)
-        if user.id != get_jwt_identity():
-            return {'message': INCORRECT_USERNAME}, 400
-
+    @swag_from('swagger_ui/board/board_get_boards.yml')
+    def get(cls):
+        user = UserModel.find_by_id(get_jwt_identity())
         return {'boards' : board_list_schema.dump(BoardModel.find_all(user.id))}, 200

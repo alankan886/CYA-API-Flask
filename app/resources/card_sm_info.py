@@ -1,8 +1,10 @@
 from typing import List
+import datetime
 
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from flasgger import swag_from
 
 from ..models.card_sm_info import CardSMInfoModel
 from ..models.card import CardModel
@@ -16,8 +18,8 @@ BOARD_NOT_FOUND = "Board not found."
 CARD_NOT_FOUND = "Card not found."
 ERROR_INSERTING = "An error occurred while inserting the item."
 CANNOT_MODIFY = "{} cannot be directly modified since they are not a user input, they are calculated by the algorithm."
-CARD_SM_INFO_DELETED = "Card's SuperMemo2 information deleted."
-CARD_SM_INFO_NOT_FOUND = "Card's SuperMemo2 information not found."
+CARD_SM_INFO_DELETED = "Card's SuperMemo2 information of 'id={}' deleted."
+CARD_SM_INFO_NOT_FOUND = "Card's SuperMemo2 information of 'id={}' not found."
 
 
 card_sm_info_schema = CardSMInfoSchema()
@@ -27,11 +29,9 @@ card_sm_info_schema_list = CardSMInfoSchema(many=True)
 class CardSMInfo(Resource):
     @classmethod
     @jwt_required
-    def post(cls, card_name: str, board_name: str, username: str) -> List[dict]:
-        user = UserModel.find_by_username(username)
-        
-        if not user:
-            return {"message": USER_NOT_FOUND}, 404
+    @swag_from("swagger_ui/card_sm_info/card_sm_info_post_by_card.yml")
+    def post(cls, card_name: str, board_name: str) -> List[dict]:
+        user = UserModel.find_by_id(get_jwt_identity())
         
         board = BoardModel.find_by_name(board_name, user.id)
             
@@ -48,7 +48,6 @@ class CardSMInfo(Resource):
         latest_card_sm_info = CardSMInfoModel.find_latest_review(card.id)
         
         if latest_card_sm_info:
-            #new_card_sm_info = load_args_to_calc_sm_info(latest_card_sm_info)
             new_card_sm_info = CardSMInfoModel.calc_sm_info(
                 quality,
                 False,
@@ -77,16 +76,16 @@ class CardSMInfo(Resource):
         except:
             return {"message" : ERROR_INSERTING}, 500
 
-        return card_sm_info_schema.dump(new_card_sm_info), 200
+        return card_sm_info_schema.dump(new_card_sm_info), 201
 
 class CardSMInfoId(Resource):
     @classmethod
     @jwt_required
-    def put(cls, id:int, card_name: str, board_name: str, username: str) -> List[dict]:
-        user = UserModel.find_by_username(username)
-        
-        if not user:
-            return {"message": USER_NOT_FOUND}, 404
+    @swag_from("swagger_ui/card_sm_info/card_sm_info_put_by_sm_id.yml")
+    def put(cls, id:int, card_name: str, board_name: str) -> List[dict]:
+        new_card_sm_info = None
+
+        user = UserModel.find_by_id(get_jwt_identity())
         
         board = BoardModel.find_by_name(board_name, user.id)
             
@@ -133,8 +132,9 @@ class CardSMInfoId(Resource):
                 card_sm_info = card_sm_info.calc_sm_info(**arguments)
 
             if last_review_changed:
-                card_sm_info.next_review = card_sm_json.last_review + card_sm_info.interval
+                card_sm_info.next_review =  datetime.datetime.strptime(card_sm_json["last_review"], "%Y-%m-%d") + datetime.timedelta(days=card_sm_info.new_interval)
             
+            # TODO: There's a big here
             card_sm_json = card_sm_info.json()
             card_sm_json["quality"] = card_sm_info.quality
             card_sm_json["last_review"] = str(card_sm_info.last_review)
@@ -168,21 +168,19 @@ class CardSMInfoId(Resource):
             # So its' import to serialize the data here.
             card_sm_info = card_sm_info_schema.load(new_card_sm_json)
 
-        card_sm_info.save_to_db()
+        
         try:
-            pass
+            card_sm_info.save_to_db()
         except:
             return {"message" : ERROR_INSERTING}, 500
         
-        return card_sm_info_schema.dump(card_sm_info), 200
+        return card_sm_info_schema.dump(card_sm_info), 200 if not new_card_sm_info else 201
 
     @classmethod
     @jwt_required
-    def delete(cls, id: int, card_name: str, board_name:str, username: str) -> str:
-        user = UserModel.find_by_username(username)
-        
-        if not user:
-            return {"message": USER_NOT_FOUND}, 404
+    @swag_from("swagger_ui/card_sm_info/card_sm_info_delete_by_sm_id.yml")
+    def delete(cls, id: int, card_name: str, board_name:str) -> str:
+        user = UserModel.find_by_id(get_jwt_identity())
         
         board = BoardModel.find_by_name(board_name, user.id)
             
@@ -197,19 +195,17 @@ class CardSMInfoId(Resource):
         
         if card_sm_info:
             card_sm_info.delete_from_db()
-            return {"message" : CARD_SM_INFO_DELETED}, 200
+            return {"message" : CARD_SM_INFO_DELETED.format(id)}, 200
         
-        return {"message" : CARD_SM_INFO_NOT_FOUND}, 404
+        return {"message" : CARD_SM_INFO_NOT_FOUND.format(id)}, 404
 
     
 class CardSMInfoList(Resource):
     @classmethod
     @jwt_required
-    def get(cls, card_name: str, board_name: str, username: str) -> List[dict]:
-        user = UserModel.find_by_username(username)
-        
-        if not user:
-            return {"message": USER_NOT_FOUND}, 404
+    @swag_from("swagger_ui/card_sm_info/card_sm_info_get_all_by_card.yml")
+    def get(cls, card_name: str, board_name: str) -> List[dict]:
+        user = UserModel.find_by_id(get_jwt_identity())
         
         board = BoardModel.find_by_name(board_name, user.id)
             
@@ -221,4 +217,4 @@ class CardSMInfoList(Resource):
         if not card:
             return {"message": CARD_NOT_FOUND}, 404
 
-        return card_sm_info_schema_list.dump(card.card_sm_info), 200
+        return {"card_sm_info": card_sm_info_schema_list.dump(card.card_sm_info)}, 200

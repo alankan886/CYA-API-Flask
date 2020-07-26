@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask import request
 from werkzeug.security import safe_str_cmp
+from flasgger import swag_from
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -28,6 +29,7 @@ user_schema = UserSchema()
 
 class UserRegister(Resource):
     @classmethod
+    @swag_from('swagger_ui/user/user_post_register.yml')
     def post(cls):
         user_json = request.get_json()
         user = user_schema.load(user_json)
@@ -60,6 +62,7 @@ class User(Resource):
 
 class UserLogin(Resource):
     @classmethod
+    @swag_from('swagger_ui/user/user_post_login.yml')
     def post(cls):
         user_json = request.get_json()
         user_data = user_schema.load(user_json)
@@ -77,6 +80,7 @@ class UserLogin(Resource):
 class UserLogout(Resource):
     @classmethod
     @jwt_required
+    @swag_from('swagger_ui/user/user_post_logout.yml')
     def post(cls):
         jti = get_raw_jwt()["jti"]
         user_id = get_jwt_identity()
@@ -89,6 +93,7 @@ class UserLogout(Resource):
 class TokenRefresh(Resource):
     @classmethod
     @jwt_refresh_token_required
+    @swag_from('swagger_ui/user/user_post_refresh.yml')
     def post(cls):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
