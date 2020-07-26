@@ -1,0 +1,96 @@
+Creates a new card-sm-info record of a card
+---
+tags:
+  - Card-SM-Info
+security:
+  - bearerAuth: []
+description: Creates a new card-sm-info record of a card that's calculated based on the latest record.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name on the board.
+    examples:
+      demo:
+        value: card1
+requestBody:
+  description: Takes input from user about the quality of the attempt.
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          quality:
+            type: int
+            required: true
+      examples:
+        demo:
+          value: {
+            quality: 3,
+          }
+responses:
+  '201':
+    description: Created - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: 
+            {
+              "quality": 0,
+              "next_review": "2020-08-03",
+              "card_id": 1,
+              "id": 56,
+              "last_review": "2020-07-28",
+              "new_interval": 6,
+              "new_repetitions": 3,
+              "new_easiness": 2.22
+            }
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Board not found."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."
+  '500':
+    description: Internal Server Error - Error happened when inserting the information to database.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "An error occurred while inserting the card-sm-info."

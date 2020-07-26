@@ -1,0 +1,44 @@
+Login as a specific user
+---
+tags:
+  - User
+description: Login as a user based on the given username and password.
+requestBody:
+  description: Takes a username and a password.
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/User'
+      examples:
+        demo:
+          value: {
+            "username": "demo_username",
+            "password": "demo_password"
+            }
+responses:
+  '200':
+    description: Information about access token, refresh token and username.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              example: "demo_username"
+            access_token:
+              type: string
+              example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTU1MzMyODcsIm5iZiI6MTU5NTUzMzI4NywianRpIjoiODBlNWY5MjUtMjE3NC00NWY3LTgwYWMtY2I1Njc2NWNkNTUxIiwiZXhwIjoxNTk1NTM1MDg3LCJpZGVudGl0eSI6NCwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MifQ.53nlr3E3pwZvBMmtNZl4fLEl-eAwtVSr5NEfBILm8WA"
+            refresh_token:
+              type: string
+              example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTU1MzMyODcsIm5iZiI6MTU5NTUzMzI4NywianRpIjoiODJjZThmYjQtY2ZjMy00ZjQzLWI4ZGMtZTNmNWRlM2JkNGFiIiwiZXhwIjoxNTk4MTI1Mjg3LCJpZGVudGl0eSI6NCwidHlwZSI6InJlZnJlc2gifQ.c7_Rq3Hd_jks_GeDCfNpwhHUfdvfJxrc7uOs4T4j0HI"
+  '400':
+    description: A message about user with the user info is not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "User not found."

@@ -1,0 +1,31 @@
+Refresh the user's access token
+---
+tags:
+  - User
+security:
+  - bearerAuth: []
+description: Refresh a user's access token based on the given refresh token the user got from login.
+responses:
+  '200':
+    description: A message for successfully refreshed the access token.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTU1MzMyODcsIm5iZiI6MTU5NTUzMzI4NywianRpIjoiODBlNWY5MjUtMjE3NC00NWY3LTgwYWMtY2I1Njc2NWNkNTUxIiwiZXhwIjoxNTk1NTM1MDg3LCJpZGVudGl0eSI6NCwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MifQ.53nlr3E3pwZvBMmtNZl4fLEl-eAwtVSr5NEfBILm8WA"
+  '401':
+    description: Refresh token verification failed, invalid token.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            description:
+              type: string
+              example: "Signature verification failed."
+            error:
+              type: string
+              example: "invalid_token"

@@ -1,0 +1,42 @@
+Gets all the cards under a user
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Gets all the card under the user.
+parameters:
+  - in: query
+    name: today
+    schema:
+      type: boolean
+      default: false
+    description: Filter the list by cards that are due today and were due before today.
+responses:
+  '200':
+    description: OK - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: 
+              cards: [
+                {
+                  last_review: "2020-07-24",
+                  next_review: "2020-07-31",
+                  name: card1,
+                  board_id: 1,
+                  tag: Demo,
+                  quality: 3,
+                  id: 1
+                },
+                {
+                  last_review: "2020-07-24",
+                  next_review: "2020-07-31",
+                  name: card2,
+                  board_id: 1,
+                  tag: Demo,
+                  quality: 3,
+                  id: 2
+                }
+              ]

@@ -1,0 +1,122 @@
+Updates a card-SM-info of a specific card
+---
+tags:
+  - Card-SM-Info
+security:
+  - bearerAuth: []
+description: Updates a card-SM-info of a specific card based on the record id.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name under the current login user.
+    examples:
+      demo:
+        value: card1
+  - in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: A Card-SM-Info id.
+    examples:
+      demo:
+        value: 1
+requestBody:
+  description: Takes SuperMemo-2 information.
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          quality:
+            type: int
+            required: true
+      examples:
+        demo:
+          value: {
+            quality: 3,
+          }
+responses:
+  '200':
+    description: OK - Information about the card on the board after updated.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example:
+            {
+              "new_interval": 1,
+              "next_review": "2020-07-31",
+              "quality": 3,
+              "card_id": 1,
+              "last_review": "2020-07-24",
+              "new_easiness": 2.36,
+              "id": 1,
+              "new_repetitions": 2
+            }
+  '201':
+    description: Created - Information about the new card on the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: 
+            { 
+              "new_interval": 1,
+              "next_review": "2020-07-31",
+              "quality": 3,
+              "card_id": 1,
+              "last_review": "2020-07-24",
+              "new_easiness": 2.36,
+              "id": 1,
+              "new_repetitions": 2
+            }
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Board not found."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."
+  '500':
+    description: Internal Server Error - Error happened when inserting the information to database.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "An error occurred while inserting the card-sm-info."

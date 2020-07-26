@@ -1,0 +1,84 @@
+Deletes a new card-sm-info record of a card
+---
+tags:
+  - Card-SM-Info
+security:
+  - bearerAuth: []
+description: Deletes a new card-sm-info record based on the record id.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name on the board.
+    examples:
+      demo:
+        value: card1
+  - in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: A Card-SM-Info id.
+    examples:
+      demo:
+        value: 1
+responses:
+  '200':
+    description: Created - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Card's SuperMemo2 information of 'id=1' deleted.
+                
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Board not found."
+            Card-SM-Info Not Found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card's SuperMemo2 information of 'id=1' not found."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."
+          Card-SM-Info Not Found:
+            summary: "Card-SM-Info Not Found"
+            value:
+              message: "Card's SuperMemo2 information of 'id=1' not found."

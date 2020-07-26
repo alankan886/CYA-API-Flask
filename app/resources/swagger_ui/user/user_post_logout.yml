@@ -1,0 +1,28 @@
+Logout as a specific user
+---
+tags:
+  - User
+security:
+  - bearerAuth: []
+description: Logut as a user based on the the user's access_token in the headers.
+responses:
+  '201':
+    description: A message for successfully logging out the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "User demo_username successfully logged out."
+  '400':
+    description: A message for wrong username or password.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Invalid credentials!"

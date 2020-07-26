@@ -1,0 +1,49 @@
+Gets all the cards on a specific board
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Gets all the card under the user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+  - in: query
+    name: today
+    schema:
+      type: boolean
+      default: false
+    description: Filter the list by cards that are due today.
+responses:
+  '200':
+    description: OK - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: 
+              cards: [
+                {
+                  last_review: "2020-07-24",
+                  next_review: "2020-07-31",
+                  name: card1,
+                  board_id: 1,
+                  tag: Demo,
+                  quality: 3,
+                  id: 1
+                }
+              ]
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Board not found."

@@ -1,0 +1,35 @@
+Deletes all the cards on a specific board
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Gets all the card under the user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+responses:
+  '200':
+    description: OK - Information about the cards successfully deleted.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Cards deleted."
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Board not found."

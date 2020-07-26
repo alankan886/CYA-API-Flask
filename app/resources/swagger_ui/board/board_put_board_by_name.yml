@@ -1,0 +1,79 @@
+Updates a board under a specific user
+---
+tags:
+  - Board
+security:
+  - bearerAuth: []
+description: Updates or creates a board under a specific user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+requestBody:
+  description: Takes a username and a password.
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Board'
+        required: true
+      examples:
+        demo:
+          value: {
+            "name": "updated_board_name"
+            }
+responses:
+  '201':
+    description: Information about the board created.
+    content:
+      application/json:
+        schema:
+          type: object
+          example: {
+              "name": "board1",
+              "user_id": 1,
+              "id": 1,
+              "cards": []
+          }
+  '400':
+    description: Bad Request - Board with the same name already exists or information to update is not provided.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Empty Request Body:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "No update due to empty request body."
+            Board Already Exists:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "A board with name board1 already exists."
+        examples:
+          Empty Request Body:
+            summary: "Empty request body"
+            value:
+              message: "No update due to empty request body."
+          Board Already Exists:
+            summary: "Board Already Exists"
+            value:
+              message: "A board with name board1 already exists."
+  '500':
+    description: Internal Server Error - Error happened when inserting the information to database.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "An error occurred while inserting the board."

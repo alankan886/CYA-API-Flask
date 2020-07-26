@@ -1,0 +1,64 @@
+Deletes a card on a specific board
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Deletes a card under the user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name under the current login user.
+    examples:
+      demo:
+        value: card1
+responses:
+  '200':
+    description: OK - Information about the card successfully deleted.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Card deleted.
+  '404':
+    description: Not Found - The card name doesn't match with any existing card names or the board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card Not Found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board Not Found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Board not found."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."

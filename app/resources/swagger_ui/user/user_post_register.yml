@@ -1,0 +1,38 @@
+Creates a new user
+---
+tags:
+  - User
+description: Creates a user based on the given username and password.
+requestBody:
+  description: Takes a username and a password.
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/User'
+      examples:
+        demo:
+          value: {
+            "username": "demo_username",
+            "password": "demo_password"
+            }
+responses:
+  '201':
+    description: A message for successfully created the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "User created successfully."
+  '400':
+    description: A user with the same username already exists.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "A user with the same username already exists."

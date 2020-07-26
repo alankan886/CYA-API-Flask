@@ -1,0 +1,114 @@
+Creates a card under a specific board
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Creates a card under the user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name under the current login user.
+    examples:
+      demo:
+        value: card1
+requestBody:
+  description: Takes a SuperMemo-2 information.
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Card'
+      examples:
+        demo:
+          value: {
+            quality: 3,
+            tag: Demo,
+            last_review: "2020-07-24"
+            }
+responses:
+  '201':
+    description: Created - Information about the all the cards under the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: {
+              last_review: "2020-07-24",
+              next_review: "2020-07-31",
+              name: card1,
+              board_id: 1,
+              tag: Demo,
+              quality: 3,
+              id: 1,
+              "card_sm_info": [
+                {
+                    "new_interval": 1,
+                    "next_review": "2020-07-31",
+                    "quality": 3,
+                    "card_id": 1,
+                    "last_review": "2020-07-24",
+                    "new_easiness": 2.36,
+                    "id": 1,
+                    "new_repetitions": 2
+                }
+              ]
+          }
+  '400':
+    description: Bad Request - The card name already exists or quality attribute is missing in the request body.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card Already Exists:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "An card with name 'card1' already exists."
+            Quality Missing:
+              type: object
+              properties:
+                message:
+                  type: string
+                  exmaple: "quality is not provide, it's an required attribute."
+        examples:
+          Card Already Exists:
+            summary: "Card Already Exists"
+            value:
+              message: "An card with name 'card1' already exists."
+          Quality Missing:
+            summary: "Quality Missing"
+            value:
+              message: "quality is not provide, it's an required attribute."
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Board not found."
+  '500':
+    description: Internal Server Error - Error happened when inserting the information to database.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "An error occurred while inserting the card."

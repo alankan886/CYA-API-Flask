@@ -1,0 +1,81 @@
+Gets a card on a specific board
+---
+tags:
+  - Card
+security:
+  - bearerAuth: []
+description: Gets a card under the user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name under the current login user.
+    examples:
+      demo:
+        value: card1
+responses:
+  '200':
+    description: OK - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: object
+          example: {
+              last_review: 2020-07-24,
+              next_review: 2020-07-31,
+              name: card1,
+              board_id: 1,
+              tag: Demo,
+              quality: 3,
+              id: 1,
+              "card_sm_info": [
+                {
+                    "new_interval": 1,
+                    "next_review": "2020-07-31",
+                    "quality": 3,
+                    "card_id": 1,
+                    "last_review": "2020-07-24",
+                    "new_easiness": 2.36,
+                    "id": 1,
+                    "new_repetitions": 2
+                }
+              ]
+          }
+  '404':
+    description: Not Found - The card name doesn't match with any existing card names or the board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Unknown Card Name:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board Already Exists:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "A board with name board1 already exists."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."

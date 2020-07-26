@@ -1,0 +1,83 @@
+Gets all the card-sm-info of a card
+---
+tags:
+  - Card-SM-Info
+security:
+  - bearerAuth: []
+description: Gets all the card-sm-info of a card.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+  - in: path
+    name: card_name
+    schema:
+      type: string
+    required: true
+    description: A card name on the board.
+    examples:
+      demo:
+        value: card1
+responses:
+  '200':
+    description: OK - Information about the all the cards on the board.
+    content:
+      application/json:
+        schema:
+          type: JSON
+          example: 
+              card_sm_info: [
+                {
+                  "quality": 1,
+                  "next_review": "2020-07-27",
+                  "card_id": 1,
+                  "id": 51,
+                  "last_review": "2020-07-26",
+                  "new_interval": 1,
+                  "new_repetitions": 1,
+                  "new_easiness": 2.5
+                },
+                {
+                  "quality": 3,
+                  "next_review": "2020-07-28",
+                  "card_id": 1,
+                  "id": 55,
+                  "last_review": "2020-07-27",
+                  "new_interval": 1,
+                  "new_repetitions": 2,
+                  "new_easiness": 2.36
+                }
+              ]
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            Card not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Card not found."
+            Board not found:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Board not found."
+        examples:
+          Card Not Found:
+            summary: "Card not found"
+            value:
+              message: "Card not found."
+          Board Not Found:
+            summary: "Board not found"
+            value:
+              message: "Board not found."

@@ -1,0 +1,53 @@
+Creates a board under a specific user
+---
+tags:
+  - Board
+security:
+  - bearerAuth: []
+description: Creates a board under a specific user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+responses:
+  '201':
+    description: Created - Information about the board created.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: object
+              example: {
+                  "name": "board1",
+                  "user_id": 1,
+                  "id": 1,
+                  "cards": []
+              }
+  '400':
+    description: Bad Request - The board name already exists.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "A board with name 'board1' already exists."
+  '500':
+    description: Internal Server Error - Error happened when inserting the information to database.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "An error occurred while inserting the board."

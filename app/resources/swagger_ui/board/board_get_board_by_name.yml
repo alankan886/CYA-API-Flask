@@ -1,0 +1,43 @@
+Gets a board under a specific user
+---
+tags:
+  - Board
+security:
+  - bearerAuth: []
+description: Get a board under a specific user based on the given board name.
+parameters:
+  - in: path
+    name: board_name
+    schema:
+      type: string
+    required: true
+    description: A board name under the current login user.
+    examples:
+      demo:
+        value: board1
+responses:
+  '200':
+    description: OK - Information about the specific board requested.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: object
+              example: {
+                  "name": "board1",
+                  "user_id": 1,
+                  "id": 1,
+                  "cards": []
+              }
+  '404':
+    description: Not Found - The board name doesn't match with any existing board names.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Board not found."
