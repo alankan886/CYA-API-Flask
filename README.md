@@ -348,67 +348,10 @@ Coming soon...
 
 <a name="pjstruct"/> </br>
 ## Project Structure
-```bash
-.
-├── Procfile
-├── README.md
-├── app
-│   ├── __init__.py
-│   ├── blacklist.py
-│   ├── blueprints
-│   │   ├── __init__.py
-│   │   ├── jwt
-│   │   │   ├── __init__.py
-│   │   │   └── loaders.py
-│   │   └── main
-│   │       ├── __init__.py
-│   │       ├── db.py
-│   │       ├── errors.py
-│   │       └── routes.py
-│   ├── extensions
-│   │   ├── __init__.py
-│   │   ├── db.py
-│   │   ├── jwt.py
-│   │   ├── ma.py
-│   │   └── migrate.py
-│   ├── models
-│   │   ├── __init__.py
-│   │   ├── board.py
-│   │   ├── card.py
-│   │   ├── card_sm_info.py
-│   │   └── user.py
-│   ├── resources
-│   │   ├── __init__.py
-│   │   ├── board.py
-│   │   ├── card.py
-│   │   ├── card_sm_info.py
-│   │   └── user.py
-│   └── schemas
-│       ├── __init__.py
-│       ├── board.py
-│       ├── card.py
-│       ├── card_sm_info.py
-│       └── user.py
-├── config.py
-├── cya.py
-├── migrations
-│   └── alembic.ini
-├── requirements.txt
-├── tests
-│   ├── __init__.py
-│   ├── integration
-│   │   ├── __init__.py
-│   │   └── test_card_sm_info_resource.py
-│   └── unit
-│       ├── __init__.py
-│       └── test_basics.py
-└── venv
-```
+![](/images/proj-tree.png)
 
 <a name="dbstruct"/> </br>
 ## Database Structure
-
-![](/images/cyaDB.jpg)
 
 ![](/images/cyaDB.jpg)
 
