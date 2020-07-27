@@ -10,11 +10,5 @@ convention = {
     "pk": "pk_%(table_name)s"
 }
 
-class SQLAlchemy(SQLAlchemyBase):
-    def apply_driver_hacks(self, app, info, options):
-        super(SQLAlchemy, self).apply_driver_hacks(app, info, options)
-        options['poolclass'] = NullPool
-        options.pop('pool_size', None)
-
 metadata = MetaData(naming_convention=convention)
-db = SQLAlchemy(metadata=metadata, engine_options={"pool_size": 10, "poolclass":QueuePool, "pool_pre_ping":True})
+db = SQLAlchemy(metadata=metadata)
