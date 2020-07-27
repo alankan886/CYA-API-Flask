@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy as SQLAlchemyBase
 from sqlalchemy import MetaData
-from sqlalchemy.pool import NullPool
+from sqlalchemy.pool import NullPool, QueuePool
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -17,4 +17,4 @@ class SQLAlchemy(SQLAlchemyBase):
         options.pop('pool_size', None)
 
 metadata = MetaData(naming_convention=convention)
-db = SQLAlchemy(metadata=metadata)
+db = SQLAlchemy(metadata=metadata, engine_options={"pool_size": 10, "poolclass":QueuePool, "pool_pre_ping":True})
