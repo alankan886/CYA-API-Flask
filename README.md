@@ -74,7 +74,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 ## API Reference Index 
 
 <a name="user"/> </br>
-### User
+### User Model
 | Field | Description |
 |--|--|
 | **id** | The user's id |
@@ -82,6 +82,8 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 
 <a name="post-register"/> </br>
 ### POST /register
+Register a user based on the username and password the user provided.
+
 #### Resource URL
 `https://cya-api.herokuapp.com/register`
 
@@ -90,15 +92,31 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 |--|--|
 | Response format | JSON |
 | Requires authentication? | No |
+| Requires request body? | Yes |
+<br/>
+
+|Request body key|Required| Type |
+|--|--|--|
+| username | Yes | String |
+| password | Yes | String |
 
 <a name="post-login"/> </br>
 ### POST /login
+Logins the user based on the username and password the user provided.
+
 #### Resource URL
 `https://cya-api.herokuapp.com/login`
 |||
 |--|--|
 | Response format | JSON |
 | Requires authentication? | No |
+| Requires request body? | Yes |
+<br/>
+
+|Request body key|Required| Type |
+|--|--|--|
+| username | Yes | String |
+| password | Yes | String |
 
 <a name="post-logout"/> </br>
 ### POST /logout
@@ -120,7 +138,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 
 ---
 <a name="board"/> </br>
-### Board
+### Board Model
 | Field | Description |
 |--|--|
 | **id** | The board's id. |
@@ -130,7 +148,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="get-boards"/> </br>
 ### GET /boards
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/boards`
+`https://cya-api.herokuapp.com/boards`
 |||
 |--|--|
 | Response format | JSON |
@@ -139,7 +157,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="get-board_name"/> </br>
 ### GET /<board_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>`
+`https://cya-api.herokuapp.com/<board_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -148,7 +166,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="post-board_name"/> </br>
 ### POST /<board_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>`
+`https://cya-api.herokuapp.com/<board_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -157,7 +175,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="put-board_name"/> </br>
 ### PUT /<board_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>`
+`https://cya-api.herokuapp.com/<board_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -166,7 +184,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="delete-board_name"/> </br>
 ### DELETE /<board_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>`
+`https://cya-api.herokuapp.com/<board_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -174,7 +192,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 
 ---
 <a name="card"/> </br>
-### Card
+### Card Model
 | Field | Description |
 |--|--|
 | **id** | The card's id. |
@@ -190,7 +208,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 **Note:** This endpoint will most likely be removed and change the today resource to a query parameter instead.
 
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/cards/today`
+`https://cya-api.herokuapp.com/cards`
 |||
 |--|--|
 | Response format | JSON |
@@ -204,13 +222,22 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="get-board_name-cards"/> </br>
 ### GET /<board_name>/cards
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/cards`
+`https://cya-api.herokuapp.com/<board_name>/cards`
+|||
+|--|--|
+| Response format | JSON |
+| Requires authentication? | Yes |
+<br/>
+
+|Parameters|Type|Value|Required|
+|--|--|--|--|
+| today | boolean | true/false | No
 
 <a name="delete-board_name-cards"/> </br>
 ### DELETE /<board_name>/cards
 **Note:** The API is in Alpha, so please use this with caution, once it's deleted it's gone. There will be warnings in the future.
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/cards`
+`https://cya-api.herokuapp.com/<board_name>/cards`
 
 |||
 |--|--|
@@ -220,7 +247,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="get-board_name-card_name"/> </br>
 ### GET /<board_name>/<card_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -229,7 +256,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="post-board_name-card_name"/> </br>
 ### POST /<board_name>/<card_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -238,7 +265,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="put-board_name-card_name"/> </br>
 ### PUT /<board_name>/<card_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -247,7 +274,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 <a name="delete-board_name-card_name"/> </br>
 ### DELETE /<board_name>/<card_name>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>`
 |||
 |--|--|
 | Response format | JSON |
@@ -255,7 +282,7 @@ If you are curious of what spaced repetition is, check this out: [https://ncase.
 
 ---
 <a name="card-sm-info"/> </br>
-### Card-SM-Info
+### Card-SM-Info Model
 This is for the card's SuperMemo2 information.
 | Field | Description |
 |--|--|
@@ -271,7 +298,7 @@ This is for the card's SuperMemo2 information.
 <a name="get-board_name-card_name-all_sm2_info"/> </br>
 ### GET /<board_name>/<card_name>/all-sm2-info
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/all-sm2-info`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>/all-sm2-info`
 |||
 |--|--|
 | Response format | JSON |
@@ -280,7 +307,7 @@ This is for the card's SuperMemo2 information.
 <a name="post-board_name-card_name-sm2_info"/> </br>
 ###  POST /<board_name>/<card_name>/sm2-info
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>/sm2-info`
 |||
 |--|--|
 | Response format | JSON |
@@ -289,7 +316,7 @@ This is for the card's SuperMemo2 information.
 <a name="put-board_name-card_name-sm2_info-id"/> </br>
 ### PUT /<board_name>/<card_name>/sm2-info/\<id>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info/<id>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>/sm2-info/<id>`
 |||
 |--|--|
 | Response format | JSON |
@@ -298,7 +325,7 @@ This is for the card's SuperMemo2 information.
 <a name="delete-board_name-card_name-sm2_info-id"/> </br>
 ### DELETE /<board_name>/<card_name>/sm2-info/\<id>
 #### Resource URL
-`https://cya-api.herokuapp.com/<username>/<board_name>/<card_name>/sm2-info/<id>`
+`https://cya-api.herokuapp.com/<board_name>/<card_name>/sm2-info/<id>`
 |||
 |--|--|
 | Response format | JSON |
